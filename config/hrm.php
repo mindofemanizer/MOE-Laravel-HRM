@@ -62,6 +62,8 @@ return [
 
         'allowance_rate' => env('PAYROLL_ALLOWANCE_RATE', 0.1),
 
+        'default_base_salary' => env('PAYROLL_BASE_SALARY', 0),
+
     ],
 
 ];

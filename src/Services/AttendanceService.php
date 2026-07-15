@@ -30,15 +30,14 @@ class AttendanceService extends BaseService
             $attendance->update(['clock_in_location' => $location]);
         }
 
-        // Check if late
-        $lateThreshold = config('hrm.attendance.late_threshold_minutes', 15);
+        $fresh = $attendance->fresh();
         $lateCutoff = config('hrm.attendance.late_cutoff', '08:00');
-        $clockInTime = now();
-        $cutoffTime = now()->setTimeFromTimeString($lateCutoff);
+        $clockInTime = $fresh->clock_in;
+        $cutoffTime = $clockInTime->copy()->setTimeFromTimeString($lateCutoff);
 
         if ($clockInTime->gt($cutoffTime)) {
-            $lateMinutes = $clockInTime->diffInMinutes($cutoffTime);
-            $attendance->update([
+            $lateMinutes = (int) $clockInTime->diffInMinutes($cutoffTime);
+            $fresh->update([
                 'status' => Attendance::STATUS_LATE,
                 'late_minutes' => $lateMinutes,
             ]);
@@ -66,13 +65,14 @@ class AttendanceService extends BaseService
 
         $attendance->clockOut();
 
-        // Calculate overtime
+        $fresh = $attendance->fresh();
         $overtimeAfter = config('hrm.attendance.overtime_after', '17:00');
-        $overtimeTime = now()->setTimeFromTimeString($overtimeAfter);
+        $clockOut = $fresh->clock_out;
+        $overtimeTime = $clockOut->copy()->setTimeFromTimeString($overtimeAfter);
 
-        if (now()->gt($overtimeTime)) {
-            $overtimeMinutes = now()->diffInMinutes($overtimeTime);
-            $attendance->update(['overtime_minutes' => $overtimeMinutes]);
+        if ($clockOut->gt($overtimeTime)) {
+            $overtimeMinutes = (int) $clockOut->diffInMinutes($overtimeTime);
+            $fresh->update(['overtime_minutes' => $overtimeMinutes]);
         }
 
         return $attendance;
