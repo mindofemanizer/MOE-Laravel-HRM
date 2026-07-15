@@ -85,11 +85,17 @@ class Payroll extends Model implements PayrollableInterface
         $this->table = config('hrm.tables.payrolls', 'hrm_payrolls');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function approver(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'), 'approved_by');
@@ -121,11 +127,17 @@ class Payroll extends Model implements PayrollableInterface
         return $this->payment_day ?? config('hrm.payroll.default_payment_day', 25);
     }
 
+    /**
+     * @return string
+     */
     public function getStatusLabelAttribute(): string
     {
         return self::STATUS_LABELS[$this->status] ?? ucfirst($this->status);
     }
 
+    /**
+     * @return void
+     */
     public function approve(): void
     {
         $this->update([
@@ -135,6 +147,9 @@ class Payroll extends Model implements PayrollableInterface
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function markPaid(): void
     {
         $this->update([

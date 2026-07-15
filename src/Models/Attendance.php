@@ -63,11 +63,17 @@ class Attendance extends Model implements AttendanceInterface
         $this->table = config('hrm.tables.attendances', 'hrm_attendances');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function approver(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'), 'approved_by');
@@ -116,6 +122,9 @@ class Attendance extends Model implements AttendanceInterface
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function getStatusLabelAttribute(): string
     {
         return self::STATUS_LABELS[$this->status] ?? ucfirst($this->status);

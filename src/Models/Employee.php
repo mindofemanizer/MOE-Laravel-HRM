@@ -66,31 +66,49 @@ class Employee extends Model implements EmployeeInterface
         $this->table = config('hrm.tables.employees', 'hrm_employees');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'));
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function supervisor(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'supervisor_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function subordinates(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Employee::class, 'supervisor_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attendances(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Attendance::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function payrolls(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Payroll::class);
@@ -122,6 +140,9 @@ class Employee extends Model implements EmployeeInterface
         return $this->is_active;
     }
 
+    /**
+     * @return string
+     */
     public function getStatusLabelAttribute(): string
     {
         return $this->is_active ? 'Aktif' : 'Nonaktif';

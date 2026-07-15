@@ -12,6 +12,10 @@ class PayrollService extends BaseService
 {
     /**
      * Generate payroll for a month.
+     *
+     * @param int $year
+     * @param int $month
+     * @return int
      */
     public function generateMonthly(int $year, int $month): int
     {
@@ -55,6 +59,10 @@ class PayrollService extends BaseService
 
     /**
      * Payroll batch approve.
+     *
+     * @param int $year
+     * @param int $month
+     * @return int
      */
     public function batchApprove(int $year, int $month): int
     {

@@ -12,6 +12,12 @@ class AttendanceService extends BaseService
 {
     /**
      * Clock in employee.
+     *
+     * @param int $employeeId
+     * @param string|null $location
+     * @return \Moe\HRM\Models\Attendance
+     *
+     * @throws \Exception
      */
     public function clockIn(int $employeeId, ?string $location = null): Attendance
     {
@@ -50,6 +56,11 @@ class AttendanceService extends BaseService
 
     /**
      * Clock out employee.
+     *
+     * @param int $employeeId
+     * @return \Moe\HRM\Models\Attendance
+     *
+     * @throws \Exception
      */
     public function clockOut(int $employeeId): Attendance
     {
@@ -82,6 +93,11 @@ class AttendanceService extends BaseService
 
     /**
      * Get monthly attendance report.
+     *
+     * @param int $employeeId
+     * @param int $year
+     * @param int $month
+     * @return array
      */
     public function getMonthlyReport(int $employeeId, int $year, int $month): array
     {

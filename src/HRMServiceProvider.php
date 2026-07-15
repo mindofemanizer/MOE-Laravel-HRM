@@ -8,11 +8,17 @@ use Illuminate\Support\ServiceProvider;
 
 class HRMServiceProvider extends ServiceProvider
 {
+    /**
+     * @return void
+     */
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/hrm.php', 'hrm');
     }
 
+    /**
+     * @return void
+     */
     public function boot(): void
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');

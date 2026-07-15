@@ -67,26 +67,41 @@ class Leave extends Model
         $this->table = config('hrm.tables.leaves', 'hrm_leaves');
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
+    /**
+     * @return BelongsTo
+     */
     public function approver(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'), 'approved_by');
     }
 
+    /**
+     * @return string
+     */
     public function getTypeLabelAttribute(): string
     {
         return self::TYPE_LABELS[$this->type] ?? ucfirst($this->type);
     }
 
+    /**
+     * @return string
+     */
     public function getStatusLabelAttribute(): string
     {
         return self::STATUS_LABELS[$this->status] ?? ucfirst($this->status);
     }
 
+    /**
+     * @return void
+     */
     public function approve(): void
     {
         $this->update([
@@ -96,6 +111,10 @@ class Leave extends Model
         ]);
     }
 
+    /**
+     * @param string $reason
+     * @return void
+     */
     public function reject(string $reason): void
     {
         $this->update([
