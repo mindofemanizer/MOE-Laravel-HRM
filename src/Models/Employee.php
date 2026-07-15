@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\HRM\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -64,7 +66,7 @@ class Employee extends Model implements EmployeeInterface
         $this->table = config('hrm.tables.employees', 'hrm_employees');
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'));
     }

@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\HRM\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Leave extends Model
@@ -11,13 +14,13 @@ class Leave extends Model
 
     protected $table;
 
-    const TYPE_ANNUAL = 'annual';
-    const TYPE_SICK = 'sick';
-    const TYPE_MATERNITY = 'maternity';
-    const TYPE_IMPORTANT = 'important';
-    const TYPE_OTHER = 'other';
+    public const TYPE_ANNUAL = 'annual';
+    public const TYPE_SICK = 'sick';
+    public const TYPE_MATERNITY = 'maternity';
+    public const TYPE_IMPORTANT = 'important';
+    public const TYPE_OTHER = 'other';
 
-    const TYPE_LABELS = [
+    public const TYPE_LABELS = [
         self::TYPE_ANNUAL => 'Cuti Tahunan',
         self::TYPE_SICK => 'Cuti Sakit',
         self::TYPE_MATERNITY => 'Cuti Melahirkan',
@@ -25,12 +28,12 @@ class Leave extends Model
         self::TYPE_OTHER => 'Lainnya',
     ];
 
-    const STATUS_PENDING = 'pending';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_REJECTED = 'rejected';
-    const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_REJECTED = 'rejected';
+    public const STATUS_CANCELLED = 'cancelled';
 
-    const STATUS_LABELS = [
+    public const STATUS_LABELS = [
         self::STATUS_PENDING => 'Menunggu',
         self::STATUS_APPROVED => 'Disetujui',
         self::STATUS_REJECTED => 'Ditolak',
@@ -64,12 +67,12 @@ class Leave extends Model
         $this->table = config('hrm.tables.leaves', 'hrm_leaves');
     }
 
-    public function employee()
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
-    public function approver()
+    public function approver(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'), 'approved_by');
     }

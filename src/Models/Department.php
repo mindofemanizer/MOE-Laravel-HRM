@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\HRM\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Department extends Model
@@ -29,7 +32,7 @@ class Department extends Model
         $this->table = config('hrm.tables.departments', 'hrm_departments');
     }
 
-    public function head()
+    public function head(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'head_employee_id');
     }

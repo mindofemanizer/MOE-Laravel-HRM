@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\HRM\Services;
 
-use Illuminate\Support\Facades\DB;
 use Moe\Core\Base\BaseService;
 use Moe\HRM\Models\Employee;
 use Moe\HRM\Models\Payroll;

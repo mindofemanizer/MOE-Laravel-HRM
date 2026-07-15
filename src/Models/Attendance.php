@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\HRM\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,14 +15,14 @@ class Attendance extends Model implements AttendanceInterface
 
     protected $table;
 
-    const STATUS_PRESENT = 'present';
-    const STATUS_LATE = 'late';
-    const STATUS_ABSENT = 'absent';
-    const STATUS_SICK = 'sick';
-    const STATUS_LEAVE = 'leave';
-    const STATUS_PERMIT = 'permit';
+    public const STATUS_PRESENT = 'present';
+    public const STATUS_LATE = 'late';
+    public const STATUS_ABSENT = 'absent';
+    public const STATUS_SICK = 'sick';
+    public const STATUS_LEAVE = 'leave';
+    public const STATUS_PERMIT = 'permit';
 
-    const STATUS_LABELS = [
+    public const STATUS_LABELS = [
         self::STATUS_PRESENT => 'Hadir',
         self::STATUS_LATE => 'Terlambat',
         self::STATUS_ABSENT => 'Tidak Hadir',
@@ -66,7 +68,7 @@ class Attendance extends Model implements AttendanceInterface
         return $this->belongsTo(Employee::class);
     }
 
-    public function approver()
+    public function approver(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'), 'approved_by');
     }

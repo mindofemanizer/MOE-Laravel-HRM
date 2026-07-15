@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Moe\HRM\Models;
 
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +15,12 @@ class Payroll extends Model implements PayrollableInterface
 
     protected $table;
 
-    const STATUS_DRAFT = 'draft';
-    const STATUS_APPROVED = 'approved';
-    const STATUS_PAID = 'paid';
-    const STATUS_CANCELLED = 'cancelled';
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_APPROVED = 'approved';
+    public const STATUS_PAID = 'paid';
+    public const STATUS_CANCELLED = 'cancelled';
 
-    const STATUS_LABELS = [
+    public const STATUS_LABELS = [
         self::STATUS_DRAFT => 'Draf',
         self::STATUS_APPROVED => 'Disetujui',
         self::STATUS_PAID => 'Dibayar',
@@ -88,7 +90,7 @@ class Payroll extends Model implements PayrollableInterface
         return $this->belongsTo(Employee::class);
     }
 
-    public function approver()
+    public function approver(): BelongsTo
     {
         return $this->belongsTo(config('hrm.models.user', 'App\\Models\\User'), 'approved_by');
     }
