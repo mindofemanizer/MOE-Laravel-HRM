@@ -18,8 +18,7 @@ class PayrollService extends BaseService
         $generated = 0;
 
         foreach ($employees as $employee) {
-            $baseSalarySetting = $employee->settings()->where('key', 'base_salary')->first();
-            $baseSalary = $baseSalarySetting?->value ?? 0;
+            $baseSalary = config('hrm.payroll.default_base_salary', 0);
 
             $attendanceService = app(AttendanceService::class);
             $report = $attendanceService->getMonthlyReport($employee->id, $year, $month);

@@ -21,6 +21,8 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('hrm.attendance.late_cutoff', '23:59');
+        $app['config']->set('hrm.payroll.default_base_salary', 5000000);
     }
 
     protected function setUp(): void
