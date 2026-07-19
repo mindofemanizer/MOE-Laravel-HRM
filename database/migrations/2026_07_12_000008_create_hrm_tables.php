@@ -23,7 +23,7 @@ return new class extends Migration
         // Employees
         Schema::create('hrm_employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignUlid('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('employee_number', 30)->unique();
             $table->string('full_name');
             $table->string('nickname')->nullable();
@@ -73,7 +73,7 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->string('clock_in_location')->nullable();
             $table->string('clock_out_location')->nullable();
-            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->ulid('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
@@ -108,7 +108,7 @@ return new class extends Migration
             $table->integer('payment_day')->default(25);
             $table->string('status', 50)->default('draft');
             $table->text('notes')->nullable();
-            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->ulid('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('paid_at')->nullable();
             $table->timestamps();
@@ -129,7 +129,7 @@ return new class extends Migration
             $table->integer('total_days');
             $table->text('reason')->nullable();
             $table->string('status', 50)->default('pending');
-            $table->unsignedBigInteger('approved_by')->nullable();
+            $table->ulid('approved_by')->nullable();
             $table->timestamp('approved_at')->nullable();
             $table->text('rejected_reason')->nullable();
             $table->text('notes')->nullable();
