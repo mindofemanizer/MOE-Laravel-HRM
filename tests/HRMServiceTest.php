@@ -1,68 +1,52 @@
 <?php
 
-namespace Moe\HRM\Tests;
-
+use Moe\HRM\Models\Attendance;
 use Moe\HRM\Models\Department;
 use Moe\HRM\Models\Employee;
-use Moe\HRM\Models\Attendance;
 use Moe\HRM\Services\AttendanceService;
 use Moe\HRM\Services\PayrollService;
 
-class HRMServiceTest extends TestCase
-{
-    private AttendanceService $attendanceService;
-    private PayrollService $payrollService;
-    private Employee $employee;
+beforeEach(function () {
+    $department = Department::create(['name' => 'IT', 'code' => 'IT', 'is_active' => true]);
+    $this->employee = Employee::create([
+        'employee_number' => 'EMP-001',
+        'full_name' => 'Budi Santoso',
+        'department_id' => $department->id,
+        'position' => 'Developer',
+        'is_active' => true,
+    ]);
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $this->attendanceService = new AttendanceService();
+    $this->payrollService = new PayrollService();
+});
 
-        $department = Department::create(['name' => 'IT', 'code' => 'IT', 'is_active' => true]);
-        $this->employee = Employee::create([
-            'employee_number' => 'EMP-001',
-            'full_name' => 'Budi Santoso',
-            'department_id' => $department->id,
-            'position' => 'Developer',
-            'is_active' => true,
-        ]);
+it('can clock in', function () {
+    $attendance = $this->attendanceService->clockIn($this->employee->id);
 
-        $this->attendanceService = new AttendanceService();
-        $this->payrollService = new PayrollService();
-    }
+    expect($attendance)->toBeInstanceOf(Attendance::class);
+    expect($attendance->clock_in)->not->toBeNull();
+    expect($attendance->status)->toEqual(Attendance::STATUS_PRESENT);
+});
 
-    public function test_can_clock_in()
-    {
-        $attendance = $this->attendanceService->clockIn($this->employee->id);
+it('can clock out', function () {
+    $this->attendanceService->clockIn($this->employee->id);
+    $attendance = $this->attendanceService->clockOut($this->employee->id);
 
-        $this->assertInstanceOf(Attendance::class, $attendance);
-        $this->assertNotNull($attendance->clock_in);
-        $this->assertEquals(Attendance::STATUS_PRESENT, $attendance->status);
-    }
+    expect($attendance->clock_out)->not->toBeNull();
+});
 
-    public function test_can_clock_out()
-    {
-        $this->attendanceService->clockIn($this->employee->id);
-        $attendance = $this->attendanceService->clockOut($this->employee->id);
+it('gets monthly report', function () {
+    $this->attendanceService->clockIn($this->employee->id);
+    $this->attendanceService->clockOut($this->employee->id);
 
-        $this->assertNotNull($attendance->clock_out);
-    }
+    $report = $this->attendanceService->getMonthlyReport($this->employee->id, now()->year, now()->month);
 
-    public function test_get_monthly_report()
-    {
-        $this->attendanceService->clockIn($this->employee->id);
-        $this->attendanceService->clockOut($this->employee->id);
+    expect($report)->toBeArray();
+    expect($report)->toHaveKey('present');
+    expect($report)->toHaveKey('late');
+});
 
-        $report = $this->attendanceService->getMonthlyReport($this->employee->id, now()->year, now()->month);
-
-        $this->assertIsArray($report);
-        $this->assertArrayHasKey('present', $report);
-        $this->assertArrayHasKey('late', $report);
-    }
-
-    public function test_can_generate_payroll()
-    {
-        $generated = $this->payrollService->generateMonthly(now()->year, now()->month);
-        $this->assertEquals(1, $generated);
-    }
-}
+it('can generate payroll', function () {
+    $generated = $this->payrollService->generateMonthly(now()->year, now()->month);
+    expect($generated)->toEqual(1);
+});
