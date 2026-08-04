@@ -1,11 +1,11 @@
-# MOE-Laravel-HRM
+﻿# MOE-Laravel-HRM
 
-HRM module for MOE ecosystem — Employee, Attendance, Payroll.
+HRM module for MOE ecosystem â€” Employee, Attendance, Payroll.
 
 ## Installation
 
 ```bash
-composer require moe/laravel-hrm
+composer require moe/laravel-hrm:dev-main
 php artisan vendor:publish --provider="Moe\HRM\HRMServiceProvider" --tag="hrm-config"
 php artisan vendor:publish --provider="Moe\HRM\HRMServiceProvider" --tag="hrm-migrations"
 php artisan migrate

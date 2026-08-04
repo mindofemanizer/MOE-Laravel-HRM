@@ -1,14 +1,66 @@
 {
     "name": "moe/laravel-hrm",
     "description": "HRM module — Employee, Attendance, Payroll, Leave",
-    "type": "library", "license": "MIT",
-    "autoload": { "psr-4": { "Moe\\HRM\\": "src/" } },
-    "autoload-dev": { "psr-4": { "Moe\\HRM\\Tests\\": "tests/" } },
-    "require": { "php": "^8.2", "illuminate/support": "^11.0|^12.0|^13.0", "moe/laravel-core": "dev-main" },
-    "require-dev": { "orchestra/testbench": "^9.0", "phpunit/phpunit": "^10.5" },
-    "repositories": [
-        {"type": "vcs", "url": "https://github.com/mindofemanizer/MOE-Laravel-Core"}
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "hrm",
+        "hr",
+        "employee",
+        "attendance",
+        "payroll",
+        "leave",
+        "moe"
     ],
-    "extra": { "laravel": { "providers": ["Moe\\HRM\\HRMServiceProvider"] } },
-    "minimum-stability": "dev", "prefer-stable": true
+    "authors": [
+        {
+            "name": "MindOfEmanizer",
+            "email": "mindofemanizer@users.noreply.github.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/mindofemanizer/MOE-Laravel-HRM/issues",
+        "source": "https://github.com/mindofemanizer/MOE-Laravel-HRM"
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^11.0|^12.0|^13.0",
+        "moe/laravel-core": "dev-main"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^10.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Moe\\HRM\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Moe\\HRM\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mindofemanizer/MOE-Laravel-Core"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Moe\\HRM\\HRMServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

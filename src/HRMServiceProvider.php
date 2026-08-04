@@ -23,12 +23,14 @@ class HRMServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->publishes([
-            __DIR__.'/../config/hrm.php' => config_path('hrm.php'),
-        ], 'hrm-config');
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                __DIR__.'/../config/hrm.php' => config_path('hrm.php'),
+            ], 'hrm-config');
 
-        $this->publishes([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'hrm-migrations');
+            $this->publishes([
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'hrm-migrations');
+        }
     }
 }
